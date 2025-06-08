@@ -1,18 +1,3 @@
-
-
-def corrigir_y_base(y_desejado_no_chao):
-    """
-    Corrige a posição Y da base para que ela encoste exatamente no chão desejado.
-    
-    Parâmetros:
-        y_desejado_no_chao (int): A coordenada Y onde a parte de baixo visível da base deve encostar.
-        
-    Retorna:
-        int: O valor de Y corrigido para ser usado como `midbottom[1]` da base.
-    """
-    CORRECAO_VISUAL_BASE = 31  # pixels adicionais abaixo da parte visível da base
-    return y_desejado_no_chao + CORRECAO_VISUAL_BASE
-
 from assets import base_surface, cannon_surface, baggete_frames
 
 def construir_conjunto_canhao(base_midbottom):

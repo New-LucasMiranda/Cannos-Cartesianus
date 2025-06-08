@@ -44,7 +44,6 @@ def desenhar_equacao_com_imagem(screen, equacao_texto, board_surface, pos_x=780,
         screen.blit(titulo, (pos_x + padding +20, pos_y + padding ))
         screen.blit(equacao, (pos_x + padding +20, pos_y + padding + titulo.get_height() + 10))
 
-
 def desenhar_legenda_pontos(screen, fonte, Pi_plano, V_plano, Pf_plano, Pi_pixel, V_pixel, Pf_pixel, legenda_x=250, legenda_y=20):
     pygame.draw.rect(screen, (0, 0, 0), (legenda_x - 10, legenda_y - 10, 170, 100), border_radius=10)
     pygame.draw.rect(screen, (255, 255, 255), (legenda_x - 10, legenda_y - 10, 170, 100), 2, border_radius=10)
@@ -57,7 +56,6 @@ def desenhar_legenda_pontos(screen, fonte, Pi_plano, V_plano, Pf_plano, Pi_pixel
 
     pygame.draw.circle(screen, (0, 255, 0), Pf_pixel, 7)
     screen.blit(fonte.render(f"Pf = ({Pf_plano[0]:.2f}, {Pf_plano[1]:.2f})", True, (0, 255, 0)), (legenda_x, legenda_y + 60))
-
 
 def desenhar_barra_forca(screen, is_pressing, press_start_time, last_power_ratio,
                          max_power=34, max_press_duration=1000,

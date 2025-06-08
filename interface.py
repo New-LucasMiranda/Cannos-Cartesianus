@@ -1,6 +1,27 @@
 import pygame
 from assets import next_surface, button_surface, end_surface, pause_surface
 
+def aplicar_hover_mascara(screen, surface, rect):
+    hover_img = surface.copy()
+    for x in range(hover_img.get_width()):
+        for y in range(hover_img.get_height()):
+            r, g, b, a = hover_img.get_at((x, y))
+            if a > 0:
+                r = min(r + 30, 255)
+                g = min(g + 30, 255)
+                b = min(b + 30, 255)
+                hover_img.set_at((x, y), (r, g, b, a))
+    screen.blit(hover_img, rect.topleft)
+
+def desenha_botao(screen, fonte, texto, rect, imagem_base, cor_texto=(0, 0, 0)):
+    mouse_pos = pygame.mouse.get_pos()
+    if rect.collidepoint(mouse_pos):
+        aplicar_hover_mascara(screen, imagem_base, rect)
+    else:
+        screen.blit(imagem_base, rect.topleft)
+    texto_render = fonte.render(texto, True, cor_texto)
+    screen.blit(texto_render, texto_render.get_rect(center=rect.center))
+
 def tela_pausa(screen, fonte, clock):
 
     largura, altura = screen.get_size()
@@ -24,38 +45,16 @@ def tela_pausa(screen, fonte, clock):
     # Redimensiona imagem de botão
     button_img = pygame.transform.scale(button_surface, (botao_w, botao_h))
 
-    def aplicar_hover_mascara(surface, rect, mouse_pos):
-        hover_img = surface.copy()
-        for x in range(hover_img.get_width()):
-            for y in range(hover_img.get_height()):
-                r, g, b, a = hover_img.get_at((x, y))
-                if a > 0:
-                    r = min(r + 30, 255)
-                    g = min(g + 30, 255)
-                    b = min(b + 30, 255)
-                    hover_img.set_at((x, y), (r, g, b, a))
-        screen.blit(hover_img, rect.topleft)
-
     while True:
 
         screen.blit(fundo_popup, popup_rect.topleft)  # Fundo do pop-up
 
-        mouse_pos = pygame.mouse.get_pos()
-
-        def desenha_botao(texto, rect):
-            if rect.collidepoint(mouse_pos):
-                aplicar_hover_mascara(button_img, rect, mouse_pos)
-            else:
-                screen.blit(button_img, rect.topleft)
-            texto_render = fonte.render(texto, True, (0, 0, 0))
-            screen.blit(texto_render, texto_render.get_rect(center=rect.center))
+        desenha_botao(screen, fonte, "Continuar (C)", btn_continuar, button_img)
+        desenha_botao(screen, fonte, "Voltar ao Menu (M)", btn_menu, button_img)
 
         # Título
         texto_pausa = fonte.render("PAUSADO", True, (0, 0, 0))
         screen.blit(texto_pausa, texto_pausa.get_rect(center=(popup_rect.centerx, popup_rect.top + 50)))
-
-        desenha_botao("Continuar (C)", btn_continuar)
-        desenha_botao("Voltar ao Menu (M)", btn_menu)
 
         pygame.display.flip()
         clock.tick(60)
@@ -124,18 +123,6 @@ def tela_sucesso_fase(screen, fonte, clock, numero_fase):
     # Redimensiona imagem do botão
     button_img = pygame.transform.scale(button_surface, (botao_largura, botao_altura))
 
-    def aplicar_hover_mascara(surface, rect, mouse_pos):
-        hover_img = surface.copy()
-        for x in range(hover_img.get_width()):
-            for y in range(hover_img.get_height()):
-                r, g, b, a = hover_img.get_at((x, y))
-                if a > 0:
-                    r = min(r + 30, 255)
-                    g = min(g + 30, 255)
-                    b = min(b + 30, 255)
-                    hover_img.set_at((x, y), (r, g, b, a))
-        screen.blit(hover_img, rect.topleft)
-
     while True:
         screen.blit(fundo_popup, popup_rect.topleft)
 
@@ -148,20 +135,9 @@ def tela_sucesso_fase(screen, fonte, clock, numero_fase):
         titulo = fonte.render(f"Fase {numero_fase} concluída!", True, (0, 0, 0))
         screen.blit(titulo, (660,popup_rect.top + 40))
 
-        mouse_pos = pygame.mouse.get_pos()
-
-        # Função para desenhar o botão com hover
-        def desenha_botao(texto, rect):
-            if rect.collidepoint(mouse_pos):
-                aplicar_hover_mascara(button_img, rect, mouse_pos)
-            else:
-                screen.blit(button_img, rect.topleft)
-            texto_render = fonte.render(texto, True, (255, 255, 255))
-            screen.blit(texto_render, texto_render.get_rect(center=rect.center))
-
-        desenha_botao("Próxima fase (Enter)", btn_proxima)
-        desenha_botao("Reiniciar fase (R)", btn_reiniciar)
-        desenha_botao("Voltar ao Menu (M)", btn_menu)
+        desenha_botao(screen, fonte, "Próxima fase (Enter)", btn_proxima, button_img, (255, 255, 255))
+        desenha_botao(screen, fonte, "Reiniciar fase (R)", btn_reiniciar, button_img, (255, 255, 255))
+        desenha_botao(screen, fonte, "Voltar ao Menu (M)", btn_menu, button_img, (255, 255, 255))
 
         pygame.display.flip()
         clock.tick(60)
@@ -211,18 +187,6 @@ def tela_fim_de_jogo(screen, fonte, clock):
     # Redimensiona imagem do botão
     button_img = pygame.transform.scale(button_surface, (botao_largura, botao_altura))
 
-    def aplicar_hover_mascara(surface, rect, mouse_pos):
-        hover_img = surface.copy()
-        for x in range(hover_img.get_width()):
-            for y in range(hover_img.get_height()):
-                r, g, b, a = hover_img.get_at((x, y))
-                if a > 0:
-                    r = min(r + 30, 255)
-                    g = min(g + 30, 255)
-                    b = min(b + 30, 255)
-                    hover_img.set_at((x, y), (r, g, b, a))
-        screen.blit(hover_img, rect.topleft)
-
     while True:
         # Fundo do pop-up
         screen.blit(fundo_popup, popup_rect.topleft)
@@ -236,18 +200,8 @@ def tela_fim_de_jogo(screen, fonte, clock):
         fim = fonte.render("Fim de jogo!", True, (0, 0, 0))
         screen.blit(fim, (730,popup_rect.top + 40))
 
-        mouse_pos = pygame.mouse.get_pos()
-
-        def desenha_botao(texto, rect):
-            if rect.collidepoint(mouse_pos):
-                aplicar_hover_mascara(button_img, rect, mouse_pos)
-            else:
-                screen.blit(button_img, rect.topleft)
-            texto_render = fonte.render(texto, True, (255, 255, 255))
-            screen.blit(texto_render, texto_render.get_rect(center=rect.center))
-
-        desenha_botao("Reiniciar jogo (R)", btn_reiniciar)
-        desenha_botao("Voltar ao Menu (M)", btn_menu)
+        desenha_botao(screen, fonte, "Reiniciar jogo (R)", btn_reiniciar, button_img, (255, 255, 255))
+        desenha_botao(screen, fonte, "Voltar ao Menu (M)", btn_menu, button_img, (255, 255, 255))
 
         pygame.display.flip()
         clock.tick(60)

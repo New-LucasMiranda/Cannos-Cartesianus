@@ -1,6 +1,5 @@
 import numpy as np
 from math import atan2, cos, sin
-from settings import ALTURA_TELA
 import pygame
 
 def pixel_para_plano(x_pixel, y_pixel, origem_pixel, escala_x, escala_y):

@@ -3,8 +3,7 @@ from game_utils import gerar_funcoes_correcao_y
 
 funcoes_correcao = gerar_funcoes_correcao_y()
 
-fases = [
-     
+fases = [     
               {
         "hobbes_pos": (1145, funcoes_correcao['corrigir_y_hobbes'](Y_CHÃO)),
         "base_pos": (175, funcoes_correcao['corrigir_y_base'](Y_CHÃO)),
